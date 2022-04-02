@@ -1,6 +1,7 @@
+require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
-
+const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -10,6 +11,12 @@ const usersRoutes = require("./routes/users-routes");
 const HttpError = require("./models/http-error");
 
 const app = express();
+
+var corsOptions = {
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:3000"
+};
+console.log("Hello!");
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
@@ -47,9 +54,13 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred!" });
 });
 
+const DBUSER = process.env.MONGODB_USER;
+const DBPASS = process.env.MONGODB_PASSWORD;
+const DBNAME = process.env.MONGODB_DATABASE;
 mongoose
   .connect(
-    `mongodb+srv://<username>:<password>@c<mongodb_service>/<dataabaseName>?retryWrites=true&w=majority`
+      `mongodb+srv://${DBUSER}:${DBPASS}@cluster0.vq4uo.mongodb.net/${DBNAME}`
+      , { useNewUrlParser: true }
   )
   .then(() => {
     app.listen(5000);
