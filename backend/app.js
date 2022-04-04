@@ -13,9 +13,9 @@ const HttpError = require("./models/http-error");
 const app = express();
 
 var corsOptions = {
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:3000"
+    origin: [process.env.CLIENT_ORIGIN, "https://ourplaceswebapp.azurewebsites.net/"]
 };
-console.log("Hello!");
+
 app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
