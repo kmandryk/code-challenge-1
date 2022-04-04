@@ -13,7 +13,7 @@ const HttpError = require("./models/http-error");
 const app = express();
 
 var corsOptions = {
-    origin: [process.env.CLIENT_ORIGIN, "https://ourplaceswebapp.azurewebsites.net/"]
+    origin: process.env.CLIENT_ORIGIN
 };
 
 app.use(cors(corsOptions));

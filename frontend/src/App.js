@@ -8,6 +8,7 @@ import {
 
 import Users from './user/pages/Users';
 import NewPlace from './places/pages/NewPlace';
+import AllPlaces from './places/pages/AllPlaces';
 import UserPlaces from './places/pages/UserPlaces';
 import UpdatePlace from './places/pages/UpdatePlace';
 import Auth from './user/pages/Auth';
@@ -25,6 +26,9 @@ const App = () => {
       <Switch>
         <Route path="/" exact>
           <Users />
+        </Route>
+        <Route path="/places" exact>
+          <AllPlaces itemsPerPage={3} />
         </Route>
         <Route path="/:userId/places" exact>
           <UserPlaces />

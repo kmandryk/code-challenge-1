@@ -33,6 +33,29 @@ const getPlaceById = async (req, res, next) => {
   res.json({ place: place.toObject({ getters: true }) });
 };
 
+const getPlaces = async (req, res, next) => {
+    let places;
+    try {
+        places = await Place.find();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could any places.',
+            500
+        );
+        return next(error);
+    }
+
+    if (!places) {
+        const error = new HttpError(
+            'No places exist.',
+            404
+        );
+        return next(error);
+    }
+
+    res.json({ places: places.map(place => place.toObject({ getters: true })) });
+};
+
 const getPlacesByUserId = async (req, res, next) => {
   const userId = req.params.uid;
     console.log("userid: " + userId);
@@ -223,6 +246,7 @@ const deletePlace = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted place.' });
 };
 
+exports.getPlaces = getPlaces;
 exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
