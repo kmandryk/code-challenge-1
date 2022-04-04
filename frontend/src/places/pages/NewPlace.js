@@ -48,6 +48,7 @@ const NewPlace = () => {
       const formData = new FormData();
       formData.append('title', formState.inputs.title.value);
       formData.append('description', formState.inputs.description.value);
+      formData.append('type', formState.inputs.type.value);
       formData.append('address', formState.inputs.address.value);
       formData.append('image', formState.inputs.image.value);
       await sendRequest('http://localhost:5000/api/places', 'POST', formData, {
@@ -57,6 +58,12 @@ const NewPlace = () => {
     } catch (err) {}
   };
 
+    const options = [
+        { value: 'Restaurant', label: 'Restaurant' },
+        { value: 'Cafe', label: 'Cafe' },
+        { value: 'Pub', label: 'Pub' },
+        { value: 'Other', label: 'Other' }
+    ];
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -78,6 +85,15 @@ const NewPlace = () => {
           validators={[VALIDATOR_MINLENGTH(5)]}
           errorText="Please enter a valid description (at least 5 characters)."
           onInput={inputHandler}
+        />
+        <Input
+            id="type"
+            element="select"
+            label="Type of Place"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText="Please select from the dropdown."
+            options={options}
+            onInput={inputHandler}
         />
         <Input
           id="address"

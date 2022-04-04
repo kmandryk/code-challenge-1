@@ -35,7 +35,6 @@ const getPlaceById = async (req, res, next) => {
 
 const getPlacesByUserId = async (req, res, next) => {
   const userId = req.params.uid;
-    console.log("userid: " + userId);
   // let places;
   let userWithPlaces;
   try {
@@ -47,7 +46,6 @@ const getPlacesByUserId = async (req, res, next) => {
     );
     return next(error);
   }
-    console.log("userWithPlaces: " + userWithPlaces);
   // if (!places || places.length === 0) {
   if (!userWithPlaces || userWithPlaces.places.length === 0) {
     return next(
@@ -64,22 +62,17 @@ const getPlacesByUserId = async (req, res, next) => {
 
 const createPlace = async (req, res, next) => {
     const errors = validationResult(req);
-    console.log("createPlace");
-
   if (!errors.isEmpty()) {
     return next(
       new HttpError('Invalid inputs passed, please check your data.', 422)
     );
   }
 
-  const { title, description, address } = req.body;
-    console.log("address: " + address);
+  const { title, description, type, address } = req.body;
 
   let coordinates;
   try {
       coordinates = await getCoordsForAddress(address);
-      console.log("coordinates: " + coordinates);
-
   } catch (error) {
     return next(error);
   }
@@ -87,6 +80,7 @@ const createPlace = async (req, res, next) => {
   const createdPlace = new Place({
     title,
     description,
+    type,
     address,
     location: coordinates,
     image: req.file.path,
@@ -108,8 +102,6 @@ const createPlace = async (req, res, next) => {
     const error = new HttpError('Could not find user for provided id.', 404);
     return next(error);
   }
-
-  console.log(user);
 
   try {
     const sess = await mongoose.startSession();
