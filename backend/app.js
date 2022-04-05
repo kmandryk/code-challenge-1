@@ -63,7 +63,7 @@ mongoose
       , { useNewUrlParser: true }
   )
   .then(() => {
-    app.listen(5000);
+      app.listen(process.env.NODE_LOCAL_PORT);
   })
   .catch((err) => {
     console.log(err);

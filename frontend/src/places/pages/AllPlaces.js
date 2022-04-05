@@ -52,7 +52,7 @@ function AllPlaces({ itemsPerPage }) {
         const fetchPlaces = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5000/api/places`
+                    process.env.REACT_APP_API_BASE_URL + `/places`
                 );
                 return responseData.places;
             } catch (err) { }

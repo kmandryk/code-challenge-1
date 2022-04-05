@@ -16,6 +16,6 @@ WORKDIR /usr/src/app
 RUN npm install
 
 #COPY . .
-
+EXPOSE 5000
 #CMD npm start
 ENTRYPOINT ["node", "app.js"]
