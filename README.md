@@ -8,13 +8,23 @@ You will need to get a Google api token(GOOGLE_API_TOKEN) from https://developer
 
 **You will need to include the mongodb address and the credential in the call to the API.**
 
+#### Run Web App
+
+This project can be run with docker compose. Start the project from the code-challenge-1 root directory with the following:
+- docker-compose up (use --build --force-recreate if necessary)
+
+- you will need to fill out the environment variables in the .env file in the code-challenge-1 folder to run with docker-compose.
+- you will need to fill out the environment variables in the .env files in the sub project folders to run otherwise.
+
 #### Run Locally
 
 ##### DB
 
-- This application support mongoDB, you can find schema in `/backend/models`.
-- Before invoking the API, you will need to have a mongodb setup and provide its credential to `/backend/app.js` => mongoose connection
-- You can find information about setting up MongoDB in [this documentation](https://hub.docker.com/_/mongo) in DockerHub and on the [MondoDB website](https://docs.cloudmanager.mongodb.com/tutorial/nav/manage-hosts/).
+This application support mongoDB, you can find schema in `/backend/models`.
+The application is hardcoded to connect to a mongodb Atlas instance. You can change the connection string to connect to a different instance.
+
+if you would like to run the project without docker compose, both the backend and front end can be run as individual docker images,
+or with npm as follows:
 
 ##### Run api
 
@@ -27,3 +37,15 @@ You will need to get a Google api token(GOOGLE_API_TOKEN) from https://developer
 - go to the backend folder `cd frontend`
 - install the dependency `npm install`
 - run express api `npm start`
+
+##### linting
+
+This project has linting enabled, using eslint. run 'npm lint <file>' to perform linting.
+
+##### deployment
+
+For purposes of this code challenge demo, this project was deployed to Azure. the site can be viewed at https://ourplaceswebapp.azurewebsites.net/.
+To deploy, the docker image was pushed for each project to an Azure Container Registry (ACR). A Web App Service and Web Apps were created to host
+the images, deployed from the ACR. Further instructions can be found in the [azure documentation](https://docs.microsoft.com/en-us/azure/app-service/tutorial-custom-container): 
+
+Please email me for user information. (Google API calls aint free! ;) )
