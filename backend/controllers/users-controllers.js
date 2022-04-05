@@ -5,6 +5,31 @@ const jwt = require('jsonwebtoken');
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
 
+const getUserById = async (req, res, next) => {
+    const userId = req.params.pid;
+
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find a place.',
+            500
+        );
+        return next(error);
+    }
+
+    if (!user) {
+        const error = new HttpError(
+            'Could not find place for the provided id.',
+            404
+        );
+        return next(error);
+    }
+
+    res.json({ user: user.toObject({ getters: true }) });
+};
+
 const getUsers = async (req, res, next) => {
   let users;
   try {
@@ -161,6 +186,7 @@ const login = async (req, res, next) => {
   });
 };
 
+exports.getUserById = getUserById;
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;

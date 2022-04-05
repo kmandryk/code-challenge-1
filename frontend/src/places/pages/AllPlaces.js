@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import './AllPlaces.css';
-import PlaceItem from '../components/PlaceItem';
+import SummaryPlaceItem from '../components/SummaryPlaceItem';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import PropTypes from 'prop-types';
@@ -20,7 +20,7 @@ function Items({ currentItems }) {
         <div className="items">
             {currentItems && currentItems.map((place) => (
                 <div key={place.id}>
-                    <PlaceItem
+                    <SummaryPlaceItem
                         id={place.id}
                         image={place.image}
                         title={place.title}
