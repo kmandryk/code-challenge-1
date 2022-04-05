@@ -41,6 +41,7 @@ function AllPlaces({ itemsPerPage }) {
 
     // We start with an empty list of items.
     const [currentItems, setCurrentItems] = useState(null);
+    const [itemCount, setItemCount] = useState(0);
     const [pageCount, setPageCount] = useState(0);
     // Here we use item offsets; we could also use page offsets
     // following the API or data you're working with.
@@ -58,6 +59,7 @@ function AllPlaces({ itemsPerPage }) {
         };
         fetchPlaces().then(response => {
             const endOffset = itemOffset + itemsPerPage;
+            setItemCount(response.length);
             setCurrentItems(response.slice(itemOffset, endOffset));
             setPageCount(Math.ceil(response.length / itemsPerPage));
         });
@@ -66,10 +68,10 @@ function AllPlaces({ itemsPerPage }) {
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
 
-        const newOffset = event.selected * itemsPerPage % items.length;
+        const newOffset = event.selected * itemsPerPage % itemCount;
         setItemOffset(newOffset);
 
-        let newPageCount = Math.ceil(currentItems.length / itemsPerPage);
+        let newPageCount = Math.ceil(itemCount / itemsPerPage);
         if (pageCount != newPageCount)
             setPageCount(pageCount);
     };
@@ -82,7 +84,8 @@ function AllPlaces({ itemsPerPage }) {
                     <LoadingSpinner />
                 </div>
             )}
-            {!isLoading && loadedUsers && <Items currentItems={currentItems} />}
+            {!isLoading && currentItems && <Items currentItems={currentItems} />}
+
             
             <ReactPaginate
                 nextLabel="next >"
